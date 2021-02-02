@@ -19,7 +19,7 @@ def get_sequence( results, session ):
 
 if __name__ == '__main__':
     fold = 2
-    preds_path = '../data/model-lyell-imu_sh-0%d.pickle'%(fold+1)
+    preds_path = '../preds/model-lyell-imu_sh-0%d.pickle'%(fold+1)
 
     results = load_preds( preds_path )
     preds, lbl = get_sequence( results, session=15 )
