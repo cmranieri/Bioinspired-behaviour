@@ -265,7 +265,7 @@ class Network:
         for ch in range( self.n_channels ):
             self.netParams.cellParams['GPe_%d'%ch] = cellRule
 
-    def stnCellRules(self, gkcabar=5e-3):
+    def stnCellRules(self, gkcabar=1e-3):
         cellRule = {'conds': {'cellModel': 'STN', 'cellType': 'STN'}, 'secs': {}}
         cellRule['secs']['soma'] = {'geom': {}, 'mechs': {}}
         cellRule['secs']['soma']['geom'] = {'diam': 5.642,

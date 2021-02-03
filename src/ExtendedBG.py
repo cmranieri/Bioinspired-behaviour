@@ -38,28 +38,32 @@ class ExtendedBG( Network ):
         X = self.get_next_input()
         self.stim_c0 = np.sum( (X * self.W)[0] ) * 1.0e-3
         self.stim_c1 = np.sum( (X * self.W)[1] ) * 1.0e-3
-        print( 'Stims:', self.stim_c0, self.stim_c1 )
-        sim.net.modifyStims({'conds': {'source': 'Input_th_%d'%0}, 'del': 0, 'amp': self.stim_c0 })
-        sim.net.modifyStims({'conds': {'source': 'Input_th_%d'%1}, 'del': 0, 'amp': self.stim_c1 })
+        print( 'Stims: %0.4g, %0.4g' % (self.stim_c0, self.stim_c1) )
+        #sim.net.modifyStims({'conds': {'source': 'Input_th_%d'%0}, 'del': 0, 'amp': self.stim_c0 })
+        #sim.net.modifyStims({'conds': {'source': 'Input_th_%d'%1}, 'del': 0, 'amp': self.stim_c1 })
+        sim.net.modifyStims({'conds': {'source': 'Input_StrD1_%d'%0}, 'del': 0, 'amp': self.stim_c0 })
+        sim.net.modifyStims({'conds': {'source': 'Input_StrD1_%d'%1}, 'del': 0, 'amp': self.stim_c1 })
+        sim.net.modifyStims({'conds': {'source': 'Input_StrD2_%d'%0}, 'del': 0, 'amp': self.stim_c0 })
+        sim.net.modifyStims({'conds': {'source': 'Input_StrD2_%d'%1}, 'del': 0, 'amp': self.stim_c1 })
 
 
     def get_mfr( self, bins=50 ):
         all_spikes = self.extractSpikes()
         mfr = compute_mfr( all_spikes, self._tt*500, bins=bins )
-        plt.plot( mfr[ 'Cor_RS_APs_0' ], color='blue' )
-        #plt.plot( mfr[ 'Cor_FSI_APs_0' ], color='blue' )
-        plt.plot( mfr[ 'Cor_RS_APs_1' ], color='red' )
-        #plt.plot( mfr[ 'Cor_FSI_APs_1' ], color='red' )
-        plt.savefig( '../images/mfr.png' )
-        plt.clf()
-        return mfr
+        #plt.plot( mfr[ 'Cor_RS_APs_0' ], color='blue' )
+        #plt.plot( mfr[ 'Cor_RS_APs_1' ], color='red' )
+        #plt.savefig( '../images/mfr.png' )
+        #plt.clf()
+        mfr_list = [ mfr[key] for key in sorted( mfr ) ]
+        print( sorted(mfr.keys()) )
+        return np.array( mfr_list )
 
 
     def get_lfp( self ):
         lfp = self.extractLFP_raw()
-        plt.plot( lfp[ 5 ] )
-        plt.savefig( '../images/lfp.png' )
-        plt.clf()
+        #plt.plot( np.transpose( lfp, [1,0] ) )
+        #plt.savefig( '../images/lfp.png' )
+        #plt.clf()
         return lfp
 
 

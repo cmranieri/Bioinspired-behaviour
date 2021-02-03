@@ -16,5 +16,5 @@ def compute_mfr( all_spikes, t_sim, bins=50 ):
             mfr.append( mean_firing_rate( spikes,
                                           t_start = t_start,
                                           t_stop  = t_start + bins ) )
-        regions[ key ] = mfr
+        regions[ key ] = np.array( mfr, dtype=np.float32 )
     return regions
