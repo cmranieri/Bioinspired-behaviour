@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import scipy.io as sio
 from scipy.signal import argrelmax
 import pylab
+from GA_params import GA_params
 
 
 #TODO This is the Kumaravelu model class. Verify if all possible configurations are flexible, i.e., can be configured when a new object is instantiated
@@ -69,6 +70,38 @@ class Network:
         self.buildSynMechParams()
         self.buildCellConnRules()
         self.buildStimParams()
+
+
+    def set_genotype( self, genotype ):
+        ga_params = GA_params()
+        genotype  = ga_params.transform( genotype )
+        self.buildPopulationParameters( n_gpe   = int( genotype[6] ),
+                                        n_gpi   = int( genotype[7] ),
+                                        n_th    = int( genotype[8] ),
+                                        n_strd1 = int( genotype[9] ),
+                                        n_strd2 = int( genotype[10] ),
+                                        n_rs    = int( genotype[11] ),
+                                        n_fsi   = int( genotype[12] ),
+                                        n_stn   = int( genotype[13] ) )
+        self.buildCellConnRules()
+        #net.buildCellConnRules( stn_gpe = int( genotype[8] ),
+        #                        gpe_gpe = int( genotype[9] ),
+        #                        stn_gpi = int( genotype[10] ),
+        #                        gpe_gpi = int( genotype[11] ),
+        #                        strd2_strd2 = int( genotype[12] ),
+        #                        strd1_strd1 = int( genotype[13] ),
+        #                        rs_fsi = int( genotype[14] ),
+        #                        fsi_rs = int( genotype[15] ) )
+        self.buildStimParams( amp_th  = genotype[0],
+                              amp_gpe = genotype[1],
+                              amp_gpi = genotype[2])
+        for ch in range( self.n_channels ):
+            self.netParams.cellParams['STN_%d'%ch]['secs']['soma']['mechs']['STN']['gkcabar'] = genotype[3]
+            self.netParams.cellParams['GPe_%d'%ch]['secs']['soma']['mechs']['GP']['gahp']     = genotype[4]
+            self.netParams.cellParams['GPi_%d'%ch]['secs']['soma']['mechs']['GP']['gahp']     = genotype[4]
+        self.strConnRules( gsynmod = genotype[5] )
+        return
+
 
 
     def buildNetParams(self):

@@ -23,7 +23,7 @@ def save( data, out_name ):
 
 
 if __name__ == '__main__':
-    for mode in [ 'imu_sh', 'imulstm2', 'cnn-lstm' ]:
+    for mode in [ 'imu_sh', 'cnn-lstm' ]:
         for fold in range(8):
             print( 'FOLD', fold )
             preds_path = '../preds/model-lyell-%s-0%d.pickle'%(mode,fold+1)
@@ -33,12 +33,15 @@ if __name__ == '__main__':
                 print( 'Fold %d, session %d' % (fold, session) )
                 print( 'Label:', np.argmax( lbl ) )
                 network = ExtendedBG( stim_interval = 500,
-                                      t_sim = t_sim,
+                                      t_sim  = t_sim,
                                       has_pd = True,
-                                      preds = preds )
+                                      preds  = preds,
+                                      imax   = 1e-3 )
+                #network.set_marmoset()
                 network.simulate( lfp=False )
                 mfr = network.get_mfr( bins=20 )
+                network.plot_mfr( mfr )
                 #lfp = network.get_lfp()
                 print( network._tt )
-                save( mfr, '../mfr2_pd/%s/fd%d_s%d_lbl%d.pickle' % (mode, fold, session, np.argmax(lbl)) ) 
+                save( mfr, '../mfr/rat/mfr_str_pd/%s/fd%d_s%d_lbl%d.pickle' % (mode, fold, session, np.argmax(lbl)) ) 
                 #save( lfp, '../lfp/imu_sh/s%d_%d.pickle' % (fold, session) ) 
