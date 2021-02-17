@@ -155,7 +155,7 @@ def predict_all():
                 for fold in range(8):
                     predictions, labels = predict_model( animal, stim_cond, modalities, fold )
                     fname = '%s-%s-%s-f%d.pickle' % ( animal, stim_cond, modalities, fold ) 
-                    f = open( os.path.join( '..', 'pred_behs', fname ), 'wb' )
+                    f = open( os.path.join( '..', 'decisions', fname ), 'wb' )
                     pickle.dump( { 'predictions': predictions,
                                    'labels': labels }, f )
                     f.close()
