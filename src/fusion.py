@@ -2,6 +2,7 @@ import pickle
 import os
 import numpy as np
 
+
 def fuse( index ):
     v_file = open( '../data/model-lyell-cnn-lstm-0%d.pickle'%index, 'rb' ) 
     i_file = open( '../data/model-lyell-imulstm-0%d.pickle'%index, 'rb' ) 
