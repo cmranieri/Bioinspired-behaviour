@@ -164,7 +164,7 @@ def predict_all():
 
 
 if __name__ == '__main__':
-    #train_all()
+    train_all()
     predict_all()
 
 
